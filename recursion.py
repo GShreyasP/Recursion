@@ -121,7 +121,7 @@ def group_sum_clump(start, nums, target):
             return True
         target += nums[start]
         return group_sum_clump(start + 1, nums, target)
-    elif total > 1:
+    if total > 1:
         target -= (total - 1) * nums[start]
         if group_sum_clump(start + total, nums, target):
             return True
