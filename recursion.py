@@ -139,23 +139,17 @@ def split_array(nums):
     pre: len(nums) >= 0, nums will only contain ints
     post: return True if nums can be split, False otherwise
     """
-    if len(nums) < 1:
-        return True
-    elif len(nums) == 1:
-        return False
-    elif sum(nums) % 2 != 0:
-        return False
-    target = sum(nums) // 2
-    def helper(i, sum_list):
-        if sum_list == target:
+    sum_tot = sum(nums)
+
+    def helper(i, sum_1):
+        if i == len(nums):
+            sum_2 = sum_tot - sum_1
+            return sum_1 == sum_2
+        if helper(i + 1, sum_1 + nums[i]):
             return True
-        if sum_list > target:
-            return False
-        if i >= len(nums):
-            return False
-        use = helper(i, sum_list + nums[i])
-        skip = helper(i + 1, sum_list)
-        return use or skip
+        if helper(i + 1, sum_1):
+            return True
+        return False
     return helper(0, 0)
 
 def split_odd_10(nums):
@@ -167,37 +161,43 @@ def split_odd_10(nums):
     pre: len(nums) >= 0, nums will only contain ints
     post: return True if nums can be split, False otherwise
     """
-    if len(nums) < 1:
-        return True
-    elif len(nums) == 1:
-        return False
-    elif sum(nums) % 2 != 0:
-        return False
-    target = sum(nums) // 2
-    sum1 = 0
-    sum2 = 0
+    sum_tot = sum(nums)
+
     def helper(i, sum_list):
-        if sum_list == target:
-            sum1 = sum_list
+        if i == len(nums):
+            sum_ten = sum_tot - sum_list
+            return (sum_list % 2 == 1) and (sum_ten % 10 == 0)
+        if helper(i + 1, sum_list + nums[i]):
             return True
-        if sum_list > target:
-            return False
-        if i >= len(nums):
-            return False
-        use = helper(i, sum_list + nums[i])
-        skip = helper(i + 1, sum_list)
-        return (use % 10 == 0 and skip % 2 != 0) or (skip % 10 == 0 and use % 2 != 0)
+        if helper(i + 1, sum_list):
+            return True
+        return False
+
     return helper(0, 0)
 
-# TODO: Modify this function. You may delete this comment when you are done.
 def split_53(nums):
     """
     Given a list of ints, determine if the numbers can be split evenly into two groups
     The sum of these two groups must be equal
     Additionally, all multiples of 5 must be in one group, and all multiples of 3 (and not 5)
     must be in the other group
-    Write a recursive helper to call from this function
-start
+    Write a recursive helper to call from this function start
     pre: len(nums) >= 0, nums will only contain ints
     post: return True if nums can be split, False otherwise
     """
+    sum_tot = sum(nums)
+
+    def helper(i, sum_1):
+        if i == len(nums):
+            sum_2 = sum_tot - sum_1
+            return sum_1 == sum_2
+        if nums[i] % 5 == 0:
+            return helper(i + 1, sum_1 + nums[i])
+        if nums[i] % 3 == 0 and nums[i] % 5 != 0:
+            return helper(i + 1, sum_1)
+        if helper(i + 1, sum_1 + nums[i]):
+            return True
+        if helper(i + 1, sum_1):
+            return True
+        return False
+    return helper(0, 0)
