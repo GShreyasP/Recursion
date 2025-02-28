@@ -2,7 +2,7 @@
 Student information for this assignment:
 
 Replace <FULL NAME> with your name.
-On our honor, Guru Shreyas Pott anda Ray Arcand, this
+On our honor, Guru Shreyas Potta anda Ray Arcand, this
 programming assignment is my own work and I have not provided this code to
 any other student.
 
