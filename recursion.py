@@ -139,24 +139,25 @@ def split_array(nums):
     pre: len(nums) >= 0, nums will only contain ints
     post: return True if nums can be split, False otherwise
     """
-    sum_target = sum(nums)
-    def helper(start, nums, target):
-        target = sum_target
-        if start == len(nums):
-            return target == 0
-        target -= nums[start]
-        if helper(start + 1, nums, target):
+    if len(nums) < 1:
+        return True
+    elif len(nums) == 1:
+        return False
+    elif sum(nums) % 2 != 0:
+        return False
+    target = sum(nums) // 2
+    def helper(i, sum_list):
+        if sum_list == target:
             return True
-        target += nums[start]
-        return helper(start + 1, nums, target)
-    while sum_target > 0:
-        if not helper(0, nums, sum_target):
-            sum_target -= min(nums)
-    return helper(0, nums, 0)
+        if sum_list > target:
+            return False
+        if i >= len(nums):
+            return False
+        use = helper(i, sum_list + nums[i])
+        skip = helper(i + 1, sum_list)
+        return use or skip
+    return helper(0, 0)
 
-
-        
-# TODO: Modify this function. You may delete this comment when you are done.
 def split_odd_10(nums):
     """
     Given a list of ints, determine if the numbers can be split evenly into two groups
@@ -166,7 +167,27 @@ def split_odd_10(nums):
     pre: len(nums) >= 0, nums will only contain ints
     post: return True if nums can be split, False otherwise
     """
-
+    if len(nums) < 1:
+        return True
+    elif len(nums) == 1:
+        return False
+    elif sum(nums) % 2 != 0:
+        return False
+    target = sum(nums) // 2
+    sum1 = 0
+    sum2 = 0
+    def helper(i, sum_list):
+        if sum_list == target:
+            sum1 = sum_list
+            return True
+        if sum_list > target:
+            return False
+        if i >= len(nums):
+            return False
+        use = helper(i, sum_list + nums[i])
+        skip = helper(i + 1, sum_list)
+        return (use % 10 == 0 and skip % 2 != 0) or (skip % 10 == 0 and use % 2 != 0)
+    return helper(0, 0)
 
 # TODO: Modify this function. You may delete this comment when you are done.
 def split_53(nums):
